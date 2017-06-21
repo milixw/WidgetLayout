@@ -8,12 +8,11 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 
+import com.rexy.widgetlayout.R;
 import com.rexy.widgets.adapter.ItemProvider;
 import com.rexy.widgets.tools.ViewUtils;
 import com.rexy.widgets.view.CheckText;
-import com.rexy.widgetlayout.R;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -38,7 +37,7 @@ public class LabelLayout extends WrapLayout {
 
     private LinkedList<View> mCachedView = new LinkedList<View>();
 
-    private ViewGroup.OnHierarchyChangeListener mHierarchyChangeListener = new ViewGroup.OnHierarchyChangeListener() {
+    private OnHierarchyChangeListener mHierarchyChangeListener = new OnHierarchyChangeListener() {
         @Override
         public void onChildViewAdded(View parent, View child) {
             if (parent == LabelLayout.this && child != null) {
@@ -58,7 +57,7 @@ public class LabelLayout extends WrapLayout {
         }
     };
 
-    private View.OnClickListener mInnerClicker = new View.OnClickListener() {
+    private OnClickListener mInnerClicker = new OnClickListener() {
         @Override
         public void onClick(View child) {
             if(mOnLabelClickListener!=null){

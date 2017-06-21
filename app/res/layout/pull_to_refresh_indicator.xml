@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.rexy.widgetlayout.model.RefreshIndicator
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="60dp">
+
+    <TextView
+        android:layout_centerInParent="true"
+        android:id="@+id/pull_to_refresh_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:gravity="center"
+        android:textColor="#666666"
+        android:textAppearance="?android:attr/textAppearance"
+        android:textStyle="bold"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginRight="5dp"
+        android:gravity="center_vertical"
+        android:layout_toLeftOf="@id/pull_to_refresh_text"
+        android:layout_centerVertical="true">
+
+        <ImageView
+            android:id="@+id/pull_to_refresh_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_refresh_down"
+            android:layout_gravity="center"/>
+
+        <ProgressBar
+            android:id="@+id/pull_to_refresh_progress"
+            android:layout_width="32.5dp"
+            android:layout_height="32.5dp"
+            android:indeterminate="false"
+            android:layout_marginTop="0dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+    </RelativeLayout>
+</com.rexy.widgetlayout.model.RefreshIndicator>

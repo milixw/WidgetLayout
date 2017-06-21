@@ -15,7 +15,7 @@
         app:contentMarginTop="5dp"
         app:contentMarginRight="5dp"
         app:contentMarginBottom="5dp"
-        app:contentMarginMiddleVertical="10dp"
+        app:contentMarginVertical="10dp"
         app:dividerColorVertical="#4790D3"
         app:dividerPaddingVertical="10dp"
         >

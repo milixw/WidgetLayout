@@ -21,6 +21,8 @@ public class ActivityMain extends BaseActivity implements View.OnClickListener {
         ViewUtils.view(this, R.id.buttonPageScroll).setOnClickListener(this);
         ViewUtils.view(this, R.id.buttonWrapLabel).setOnClickListener(this);
         ViewUtils.view(this, R.id.buttonNestFloat).setOnClickListener(this);
+        ViewUtils.view(this, R.id.buttonRefresh).setOnClickListener(this);
+
         Drawable d=CardDrawable.newBuilder(this)
                 .top(5).color(0xFF666666,0xFF0000FF).radiusHalf()
                 .bottom(5).color(0xFF666666,0xFF000000).radiusHalf()
@@ -44,6 +46,9 @@ public class ActivityMain extends BaseActivity implements View.OnClickListener {
         }
         if (R.id.buttonNestFloat == id) {
             ActivityCommon.launch(this,FragmentNestFloatLayout.class);
+        }
+        if (R.id.buttonRefresh == id) {
+            ActivityCommon.launch(this,FragmentRefreshLayout.class);
         }
     }
 }

@@ -213,8 +213,8 @@ public class ColumnLayout extends PressViewGroup {
     protected void dispatchMeasure(int widthMeasureSpecNoPadding, int heightMeasureSpecNoPadding, int maxSelfWidthNoPadding, int maxSelfHeightNoPadding) {
         final int childCount = getChildCount();
         final int columnCount = Math.max(1, mColumnNumber);
-        final int middleMarginHorizontal = mDividerMargin.getContentMarginMiddleHorizontal();
-        final int middleMarginVertical = mDividerMargin.getContentMarginMiddleVertical();
+        final int middleMarginHorizontal = mDividerMargin.getContentMarginHorizontal();
+        final int middleMarginVertical = mDividerMargin.getContentMarginVertical();
         final int contentMarginHorizontal = mDividerMargin.getContentMarginLeft() + mDividerMargin.getContentMarginRight();
         final int contentMarginVertical = mDividerMargin.getContentMarginTop() + mDividerMargin.getContentMarginBottom();
         mLineHeight.clear();
@@ -277,8 +277,8 @@ public class ColumnLayout extends PressViewGroup {
     protected void dispatchLayout(int contentLeft, int contentTop, int paddingLeft, int paddingTop, int selfWidth, int selfHeight) {
         final int lineCount = mLineHeight.size();
         final int columnWidth = mColumnWidth;
-        final int middleMarginHorizontal = mDividerMargin.getContentMarginMiddleHorizontal();
-        final int middleMarginVertical = mDividerMargin.getContentMarginMiddleVertical();
+        final int middleMarginHorizontal = mDividerMargin.getContentMarginHorizontal();
+        final int middleMarginVertical = mDividerMargin.getContentMarginVertical();
         final int contentMarginLeft=mDividerMargin.getContentMarginLeft();
         final int contentMarginTop=mDividerMargin.getContentMarginTop();
 
@@ -316,8 +316,8 @@ public class ColumnLayout extends PressViewGroup {
     }
 
     private void drawColumnDivider(Canvas canvas, final int lineCount) {
-        int halfMiddleHorizontal = mDividerMargin.getContentMarginMiddleHorizontal() / 2;
-        int middleVertical = mDividerMargin.getContentMarginMiddleVertical();
+        int halfMiddleHorizontal = mDividerMargin.getContentMarginHorizontal() / 2;
+        int middleVertical = mDividerMargin.getContentMarginVertical();
         int columnTop = getContentTop() + mDividerMargin.getContentMarginTop();
         int columnBottom = columnTop;
         for (int i = 0; i < lineCount; i++) {
@@ -346,8 +346,8 @@ public class ColumnLayout extends PressViewGroup {
         boolean dividerVertical = !dividerColumn && mDividerMargin.isVisibleDividerVertical(true) && mColumnNumber > 1;
         if (dividerHorizontal || dividerVertical) {
             final int columnWidth = mColumnWidth;
-            final int middleMarginHorizontal = mDividerMargin.getContentMarginMiddleHorizontal();
-            final int middleMarginVertical = mDividerMargin.getContentMarginMiddleVertical();
+            final int middleMarginHorizontal = mDividerMargin.getContentMarginHorizontal();
+            final int middleMarginVertical = mDividerMargin.getContentMarginVertical();
             final int contentMarginLeft=mDividerMargin.getContentMarginLeft();
             final int contentMarginTop=mDividerMargin.getContentMarginTop();
             final int contentMarginBottom=mDividerMargin.getContentMarginBottom();

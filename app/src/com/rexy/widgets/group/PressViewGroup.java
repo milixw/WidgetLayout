@@ -8,8 +8,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 
-import com.rexy.widgets.drawable.FloatDrawable;
 import com.rexy.widgetlayout.R;
+import com.rexy.widgets.drawable.FloatDrawable;
 
 /**
  * 支持Hover Drawable 动画渐变,类似ios 效果.
@@ -231,11 +231,11 @@ public abstract class PressViewGroup extends BaseViewGroup {
     }
 
     public int getContentMarginMiddleHorizontal() {
-        return mDividerMargin.getContentMarginMiddleHorizontal();
+        return mDividerMargin.getContentMarginHorizontal();
     }
 
     public int getContentMarginMiddleVertical() {
-        return mDividerMargin.getContentMarginMiddleVertical();
+        return mDividerMargin.getContentMarginVertical();
     }
 
     public int getContentMarginLeft() {
@@ -367,15 +367,15 @@ public abstract class PressViewGroup extends BaseViewGroup {
     }
 
     public void setContentMarginMiddleHorizontal(int contentMarginMiddleHorizontal) {
-        if (contentMarginMiddleHorizontal != mDividerMargin.getContentMarginMiddleHorizontal()) {
-            mDividerMargin.setContentMarginMiddleHorizontal(contentMarginMiddleHorizontal);
+        if (contentMarginMiddleHorizontal != mDividerMargin.getContentMarginHorizontal()) {
+            mDividerMargin.setContentMarginHorizontal(contentMarginMiddleHorizontal);
             requestLayout();
         }
     }
 
     public void setContentMarginMiddleVertical(int contentMarginMiddleVertical) {
-        if (contentMarginMiddleVertical != mDividerMargin.getContentMarginMiddleVertical()) {
-            mDividerMargin.setContentMarginMiddleVertical(contentMarginMiddleVertical);
+        if (contentMarginMiddleVertical != mDividerMargin.getContentMarginVertical()) {
+            mDividerMargin.setContentMarginVertical(contentMarginMiddleVertical);
             requestLayout();
         }
     }

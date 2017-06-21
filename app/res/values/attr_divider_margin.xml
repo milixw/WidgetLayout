@@ -35,8 +35,8 @@
         <attr name="contentMarginRight" format="dimension"/>
         <attr name="contentMarginBottom" format="dimension"/>
         <!--水平方向和垂直方向Item 的间距-->
-        <attr name="contentMarginMiddleHorizontal" format="dimension"/>
-        <attr name="contentMarginMiddleVertical" format="dimension"/>
+        <attr name="contentMarginHorizontal" format="dimension"/>
+        <attr name="contentMarginVertical" format="dimension"/>
 
 
         <!--水平分割线颜色-->

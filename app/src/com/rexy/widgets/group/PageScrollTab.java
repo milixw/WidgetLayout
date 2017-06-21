@@ -24,9 +24,9 @@ import android.view.animation.Transformation;
 import android.widget.Checkable;
 import android.widget.TextView;
 
+import com.rexy.widgetlayout.R;
 import com.rexy.widgets.adapter.ItemProvider;
 import com.rexy.widgets.view.CheckText;
-import com.rexy.widgetlayout.R;
 
 import java.util.Locale;
 
@@ -111,7 +111,7 @@ public class PageScrollTab extends PageScrollView {
 
     protected ItemProvider mITabProvider = null;
     protected ITabClickEvent mTabClick = null;
-    private View.OnClickListener mTabItemClick = new View.OnClickListener() {
+    private OnClickListener mTabItemClick = new OnClickListener() {
         @Override
         public void onClick(View view) {
             Object tag = view.getTag(TAB_INDEX);
@@ -782,7 +782,7 @@ public class PageScrollTab extends PageScrollView {
         return savedState;
     }
 
-    static class SavedState extends View.BaseSavedState {
+    static class SavedState extends BaseSavedState {
         int currentPosition;
 
         public SavedState(Parcelable superState) {

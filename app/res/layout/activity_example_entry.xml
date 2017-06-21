@@ -42,7 +42,7 @@
         app:contentMarginLeft="20dp"
         app:contentMarginRight="20dp"
         app:contentMarginTop="10dp"
-        app:contentMarginMiddleHorizontal="6dp"
+        app:contentMarginHorizontal="6dp"
         app:dividerColorHorizontal="#619FC6"
         app:dividerPaddingHorizontalEnd="15dp"
         app:dividerPaddingHorizontalStart="5dp"
@@ -52,7 +52,7 @@
         app:foregroundDuration="120"
         app:foregroundRadius="5dp"  >
         <com.rexy.widgets.view.FadeTextButton
-            android:id="@+id/buttonWrapLabel"
+            android:id="@+id/buttonRefresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -60,7 +60,7 @@
             android:minWidth="250dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:text="WrapLayout 、LabelLayout"
+            android:text="RefreshLayout"
             android:textColor="#363F59"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -87,6 +87,19 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:text="NestFloatLayout"
+            android:textColor="#363F59"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        <com.rexy.widgets.view.FadeTextButton
+            android:id="@+id/buttonWrapLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minHeight="50dp"
+            android:minWidth="250dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="WrapLayout 、LabelLayout"
             android:textColor="#363F59"
             android:textSize="18sp"
             android:textStyle="bold" />

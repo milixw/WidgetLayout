@@ -25,13 +25,14 @@ import java.lang.ref.WeakReference;
  * 1. xml 中可用nestViewIndex指定实现了NestedScrollingChild接口的子 View 所在的直接 child 的索引。
  * floatViewIndex指定需要悬停的 View 所在的直接 Child 的索引。
  * 2. java 中建议使用setNestViewId setFloatViewId 来指定，也可通过setNestViewIndex,setFloatViewIndex来分别指定能嵌套滑动的view和悬停 View.
- *
+ * <p>
  * <declare-styleable name="NestFloatLayout">
  * <!--实现了嵌套滑动NestScrollingChild 接口的滑动的 View 所在的直接子 View 索引-->
  * <attr name="nestViewIndex" format="integer"/>
  * <!--需要吸顶到顶部的 View 所在的直接子 View 索引-->
  * <attr name="floatViewIndex" format="integer"/>
  * </declare-styleable>
+ *
  * @date: 2017-05-27 17:36
  */
 public class NestFloatLayout extends BaseViewGroup implements NestedScrollingParent {
@@ -46,7 +47,7 @@ public class NestFloatLayout extends BaseViewGroup implements NestedScrollingPar
     int mOverFlingDistance;
 
     boolean mIsBeingDragged = false;
-    boolean mCancleDragged = false;
+    boolean mCancelDragged = false;
 
     PointF mPointDown = new PointF();
     PointF mPointLast = new PointF();
@@ -180,7 +181,7 @@ public class NestFloatLayout extends BaseViewGroup implements NestedScrollingPar
     protected void dispatchMeasure(int widthMeasureSpecNoPadding, int heightMeasureSpecNoPadding, int maxSelfWidthNoPadding, int maxSelfHeightNoPadding) {
         final int childCount = getChildCount();
         int contentWidth = 0, contentHeight = 0;
-        int childState = 0, vitureHeight=0;
+        int childState = 0, virtualHeight = 0;
         View nestView = getNestView();
         View floatView = getFloatView();
         for (int i = 0; i < childCount; i++) {
@@ -190,19 +191,19 @@ public class NestFloatLayout extends BaseViewGroup implements NestedScrollingPar
             int childMarginHorizontal = params.leftMargin + params.rightMargin;
             int childMarginVertical = params.topMargin + params.bottomMargin;
             int childWidthSpec = getChildMeasureSpec(widthMeasureSpecNoPadding, childMarginHorizontal, params.width);
-            int childHeightSpec = getChildMeasureSpec(heightMeasureSpecNoPadding, childMarginVertical, params.height);
-            if (nestView == child && vitureHeight > 0) {
-                int mode = params.height == -1 ? View.MeasureSpec.EXACTLY : View.MeasureSpec.AT_MOST;
-                childHeightSpec = View.MeasureSpec.makeMeasureSpec(maxSelfHeightNoPadding - vitureHeight-params.getMarginVertical(), mode);
+            int childHeightSpec = getChildMeasureSpec(heightMeasureSpecNoPadding, childMarginVertical + contentHeight, params.height);
+            if (nestView == child && virtualHeight > 0) {
+                int mode = params.height == -1 ? MeasureSpec.EXACTLY : MeasureSpec.AT_MOST;
+                childHeightSpec = MeasureSpec.makeMeasureSpec(maxSelfHeightNoPadding - virtualHeight - params.getMarginVertical(), mode);
             }
-            params.measure(child,childWidthSpec, childHeightSpec);
+            params.measure(child, childWidthSpec, childHeightSpec);
             int itemWidth = child.getMeasuredWidth() + childMarginHorizontal;
             int itemHeight = (child.getMeasuredHeight() + childMarginVertical);
             if (floatView == child) {
-                vitureHeight = itemHeight;
-            }else {
-                if(vitureHeight>0){
-                    vitureHeight+=itemHeight;
+                virtualHeight = itemHeight;
+            } else {
+                if (virtualHeight > 0) {
+                    virtualHeight += itemHeight;
                 }
             }
             contentHeight += itemHeight;
@@ -228,7 +229,7 @@ public class NestFloatLayout extends BaseViewGroup implements NestedScrollingPar
             NestFloatLayout.LayoutParams params = (NestFloatLayout.LayoutParams) child.getLayoutParams();
             childTop += params.topMargin;
             childBottom = childTop + child.getMeasuredHeight();
-            childLeft = getContentStartH(contentLeft, baseRight, child.getMeasuredWidth(),params.leftMargin , params.rightMargin, params.gravity);
+            childLeft = getContentStartH(contentLeft, baseRight, child.getMeasuredWidth(), params.leftMargin, params.rightMargin, params.gravity);
             childRight = childLeft + child.getMeasuredWidth();
             child.layout(childLeft, childTop, childRight, childBottom);
             childTop = childBottom + params.bottomMargin;
@@ -318,7 +319,7 @@ public class NestFloatLayout extends BaseViewGroup implements NestedScrollingPar
         if (isLogAccess()) {
             print("getNestedScrollAxes");
         }
-        return 0;
+        return ViewCompat.SCROLL_AXIS_VERTICAL;
     }
 
     public OverScroller getScroller() {
@@ -331,18 +332,18 @@ public class NestFloatLayout extends BaseViewGroup implements NestedScrollingPar
     private boolean ifNeedInterceptTouch(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             View nestView = getNestView();
-            mCancleDragged = nestView == null;
-            if (!mCancleDragged) {
+            mCancelDragged = nestView == null;
+            if (!mCancelDragged) {
                 float y = event.getY() + getScrollY();
-                mCancleDragged = y >= getVerticalScrollRange() && y <= nestView.getBottom();
+                mCancelDragged = y >= getVerticalScrollRange() && y <= nestView.getBottom();
             }
         }
-        return mCancleDragged;
+        return mCancelDragged;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (ifNeedInterceptTouch(event) || getFloatView() == null || !isEnabled() || mCancleDragged) {
+        if (ifNeedInterceptTouch(event) || getFloatView() == null || !isEnabled() || mCancelDragged) {
             return super.onTouchEvent(event);
         }
         if (event.getAction() == MotionEvent.ACTION_DOWN && event.getEdgeFlags() != 0) {
@@ -368,7 +369,7 @@ public class NestFloatLayout extends BaseViewGroup implements NestedScrollingPar
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (ifNeedInterceptTouch(ev) || getFloatView() == null || !isEnabled() || mCancleDragged) {
+        if (ifNeedInterceptTouch(ev) || getFloatView() == null || !isEnabled() || mCancelDragged) {
             mIsBeingDragged = false;
         } else {
             final int action = ev.getAction() & MotionEventCompat.ACTION_MASK;

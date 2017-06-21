@@ -45,8 +45,8 @@ import com.rexy.widgetlayout.R;
  <attr name="contentMarginRight" format="dimension"/>
  <attr name="contentMarginBottom" format="dimension"/>
  <!--水平方向和垂直方向Item 的间距-->
- <attr name="contentMarginMiddleHorizontal" format="dimension"/>
- <attr name="contentMarginMiddleVertical" format="dimension"/>
+ <attr name="contentMarginHorizontal" format="dimension"/>
+ <attr name="contentMarginVertical" format="dimension"/>
 
 
  <!--水平分割线颜色-->
@@ -109,9 +109,9 @@ public class DividerMargin {
     private int mContentMarginRight=0;
     private int mContentMarginBottom=0;
     //水平方向Item 的间距
-    private int mContentMarginMiddleHorizontal = 0;
+    private int mContentMarginHorizontal = 0;
     //垂直方向Item 的间距
-    private int mContentMarginMiddlVertical = 0;
+    private int mContentMarginVertical = 0;
 
     //水平分割线颜色
     private int mDividerColorHorizontal = 0;
@@ -134,8 +134,8 @@ public class DividerMargin {
 
     private DividerMargin(float density) {
         mDensity=density;
-        mContentMarginMiddleHorizontal *= density;
-        mContentMarginMiddlVertical *= density;
+        mContentMarginHorizontal *= density;
+        mContentMarginVertical *= density;
         mDividerWidthHorizontal = (int) (0.5f + density * 0.5f);
         mDividerWidthVertical = (int) (0.5f + density * 0.5f);
         mDividerPaddingHorizontalStart *= density;
@@ -328,12 +328,12 @@ public class DividerMargin {
         }
     }
 
-    public void setContentMarginMiddleHorizontal(int contentMarginMiddleHorizontal) {
-        mContentMarginMiddleHorizontal = contentMarginMiddleHorizontal;
+    public void setContentMarginHorizontal(int contentMarginHorizontal) {
+        mContentMarginHorizontal = contentMarginHorizontal;
     }
 
-    public void setContentMarginMiddleVertical(int contentMarginMiddleVertical) {
-        mContentMarginMiddlVertical = contentMarginMiddleVertical;
+    public void setContentMarginVertical(int contentMarginVertical) {
+        mContentMarginVertical = contentMarginVertical;
     }
 
     public int getBorderLeftColor() {
@@ -420,12 +420,12 @@ public class DividerMargin {
         return mContentMarginBottom;
     }
 
-    public int getContentMarginMiddleHorizontal() {
-        return mContentMarginMiddleHorizontal;
+    public int getContentMarginHorizontal() {
+        return mContentMarginHorizontal;
     }
 
-    public int getContentMarginMiddleVertical() {
-        return mContentMarginMiddlVertical;
+    public int getContentMarginVertical() {
+        return mContentMarginVertical;
     }
 
     public int getDividerWidthVertical() {
@@ -601,8 +601,8 @@ public class DividerMargin {
             dm.mContentMarginTop = attr.getDimensionPixelSize(R.styleable.DividerMargin_contentMarginTop, dm.mContentMarginTop);
             dm.mContentMarginRight = attr.getDimensionPixelSize(R.styleable.DividerMargin_contentMarginRight, dm.mContentMarginRight);
             dm.mContentMarginBottom = attr.getDimensionPixelSize(R.styleable.DividerMargin_contentMarginBottom, dm.mContentMarginBottom);
-            dm.mContentMarginMiddleHorizontal = attr.getDimensionPixelSize(R.styleable.DividerMargin_contentMarginMiddleHorizontal, dm.mContentMarginMiddleHorizontal);
-            dm.mContentMarginMiddlVertical = attr.getDimensionPixelSize(R.styleable.DividerMargin_contentMarginMiddleVertical, dm.mContentMarginMiddlVertical);
+            dm.mContentMarginHorizontal = attr.getDimensionPixelSize(R.styleable.DividerMargin_contentMarginHorizontal, dm.mContentMarginHorizontal);
+            dm.mContentMarginVertical = attr.getDimensionPixelSize(R.styleable.DividerMargin_contentMarginVertical, dm.mContentMarginVertical);
             attr.recycle();
         }
         return dm;
