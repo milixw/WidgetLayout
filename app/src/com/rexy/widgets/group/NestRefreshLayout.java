@@ -31,11 +31,11 @@ import java.util.Queue;
  * @author: renzheng
  * @date: 2017-06-19 16:23
  */
-public class NestRefreshLayout extends BaseViewGroup implements NestedScrollingParent {
+public class NestRefreshLayout<INDICATOR extends View & NestRefreshLayout.OnRefreshListener> extends BaseViewGroup implements NestedScrollingParent {
     View mHeaderView;//固定头部。
     View mFooterView;//固定尾部。
-    View mRefreshHeader;//刷新指示头。
-    View mRefreshFooter;//刷新指示尾。
+    INDICATOR mRefreshHeader;//刷新指示头。
+    INDICATOR mRefreshFooter;//刷新指示尾。
     View mContentView;//中间内容，仅支持一个。
     View mMaskView;
 
@@ -45,8 +45,9 @@ public class NestRefreshLayout extends BaseViewGroup implements NestedScrollingP
     boolean isFooterViewFloat;
     boolean isMaskContent = true;
     boolean isRefreshPullEnable = true;
-    boolean isRefreshPushEnable = true;
+    boolean isRefreshPushEnable = false;
     boolean isRefreshNestEnable = true;
+    boolean mInterceptTouchRefresh = true;
 
     int mMaskViewVisible = -1;
     int mMaxPullDistance = -1;
@@ -67,7 +68,7 @@ public class NestRefreshLayout extends BaseViewGroup implements NestedScrollingP
     private int[] mMeasureResult = new int[3];
 
     private boolean mRefreshOffsetWay = false;
-
+    private int mNestInitDistance = 0;
     private int mRefreshState = OnRefreshListener.STATE_IDLE;
     private int mLastRefreshDistance = 0;
     private int mInnerMaxPullDistance = 0;
@@ -77,7 +78,7 @@ public class NestRefreshLayout extends BaseViewGroup implements NestedScrollingP
 
     int mDurationMin = 0, mDurationMax = 0;
     Interpolator mInterpolator;
-    private final RefreshAnimation mRefreshAnimation = new RefreshAnimation();
+    private RefreshAnimation mRefreshAnimation;
 
     public NestRefreshLayout(Context context) {
         super(context);
@@ -233,8 +234,11 @@ public class NestRefreshLayout extends BaseViewGroup implements NestedScrollingP
         }
     }
 
-    public boolean setRefreshPullIndicator(View child) {
+    public boolean setRefreshPullIndicator(INDICATOR child) {
         if (mRefreshHeader != child) {
+            if (child != null && !(child instanceof OnRefreshListener)) {
+                throw new IllegalArgumentException("refresh indicator must implements " + OnRefreshListener.class.getName());
+            }
             View oldView = mRefreshHeader;
             mRefreshHeader = child;
             updateBuildInView(child, oldView);
@@ -242,8 +246,11 @@ public class NestRefreshLayout extends BaseViewGroup implements NestedScrollingP
         return child != null;
     }
 
-    public boolean setRefreshPushIndicator(View child) {
+    public boolean setRefreshPushIndicator(INDICATOR child) {
         if (mRefreshFooter != child) {
+            if (child != null && !(child instanceof OnRefreshListener)) {
+                throw new IllegalArgumentException("refresh indicator must implements " + OnRefreshListener.class.getName());
+            }
             View oldView = mRefreshFooter;
             mRefreshFooter = child;
             updateBuildInView(child, oldView);
@@ -265,6 +272,10 @@ public class NestRefreshLayout extends BaseViewGroup implements NestedScrollingP
 
     public void setRefresNestEnable(boolean enable) {
         isRefreshNestEnable = enable;
+    }
+
+    public void setRefreshInterceptTouch(boolean interceptTouchWhileRefresh) {
+        mInterceptTouchRefresh = interceptTouchWhileRefresh;
     }
 
     public void setMaxPullDistance(int maxPullDistance) {
@@ -346,6 +357,15 @@ public class NestRefreshLayout extends BaseViewGroup implements NestedScrollingP
     public View getFooterView() {
         return mFooterView;
     }
+
+    public INDICATOR getRefreshPullIndicator() {
+        return mRefreshHeader;
+    }
+
+    public INDICATOR getRefreshPushIndicator() {
+        return mRefreshFooter;
+    }
+
 
     public View getContentView() {
         return mContentView;
@@ -706,7 +726,7 @@ public class NestRefreshLayout extends BaseViewGroup implements NestedScrollingP
                 }
             }
         }
-        return mIsBeingDragged||(isRefreshing&&skipChild(mHeaderView)&&skipChild(mFooterView));
+        return mIsBeingDragged || (isRefreshing && (mInterceptTouchRefresh || (skipChild(mHeaderView) && skipChild(mFooterView) && skipChild(mMaskView))));
     }
 
     @Override
@@ -876,12 +896,23 @@ public class NestRefreshLayout extends BaseViewGroup implements NestedScrollingP
     }
 
     private void animateRefresh(int from, int to, int duration) {
-        mRefreshAnimation.reset(from, to, true, duration < 0 ? calculateDuration(Math.abs(to - from), isOptHeader) : duration);
-        clearAnimation();
-        if (mInterpolator != null) {
-            mRefreshAnimation.setInterpolator(mInterpolator);
+        if (mRefreshAnimation != null) {
+            if (!mRefreshAnimation.hasEnded()) {
+                from = mRefreshAnimation.hasStarted() ? mRefreshAnimation.getValue() : from;
+                mRefreshAnimation.cancel();
+            }
         }
-        startAnimation(mRefreshAnimation);
+        mRefreshAnimation = new RefreshAnimation();
+        int finalDuration = duration < 0 ? calculateDuration(Math.abs(to - from), isOptHeader) : duration;
+        if (finalDuration == 0) {
+            updateRefreshDistance(to, false);
+        } else {
+            mRefreshAnimation.reset(from, to, true, finalDuration);
+            if (mInterpolator != null) {
+                mRefreshAnimation.setInterpolator(mInterpolator);
+            }
+            startAnimation(mRefreshAnimation);
+        }
     }
 
     private int calculateDuration(int distance, boolean optHeader) {
@@ -925,16 +956,29 @@ public class NestRefreshLayout extends BaseViewGroup implements NestedScrollingP
         }
         updateRefreshDistance(formatDistance, true);
         if (cancelUp && mRefreshState != OnRefreshListener.STATE_IDLE) {
-            View optView = isOptHeader ? mRefreshHeader : mRefreshFooter;
-            int criticalDistance = optView == null ? formatDistance : optView.getHeight();
-            isRefreshing = formatDistance > criticalDistance;
-            if (isRefreshing && mRefreshListener != null) {
-                animateRefresh(formatDistance, criticalDistance, -1);
-                notifyRefresh(isOptHeader);
-            } else {
-                isRefreshing = false;
-                animateRefresh(formatDistance, 0, -1);
-            }
+            flingAfterMove(formatDistance);
+        }
+    }
+
+    private void flingAfterMove(int formatDistance) {
+        View optView = isOptHeader ? mRefreshHeader : mRefreshFooter;
+        int criticalDistance = optView == null ? formatDistance : optView.getHeight();
+        isRefreshing = formatDistance > criticalDistance;
+        if (isRefreshing && mRefreshListener != null) {
+            animateRefresh(formatDistance, criticalDistance, -1);
+            notifyRefresh(isOptHeader);
+        } else {
+            isRefreshing = false;
+            animateRefresh(formatDistance, 0, -1);
+        }
+    }
+
+    private void updateRefreshByNestMove(float nestMoved, boolean nestStop) {
+        nestMoved = nestMoved * mRefreshMoveFactor;
+        int formatDistance = nestMoved > 0.5f && nestMoved < 1 ? 1 : ((int) nestMoved);
+        updateRefreshDistance(formatDistance, true);
+        if (nestStop && mRefreshState != OnRefreshListener.STATE_IDLE) {
+            flingAfterMove(formatDistance);
         }
     }
 
@@ -999,76 +1043,28 @@ public class NestRefreshLayout extends BaseViewGroup implements NestedScrollingP
     }
 
     protected void notify(int state, int oldState, int absDistance) {
+        INDICATOR indicator = isOptHeader ? mRefreshHeader : mRefreshFooter;
+        if (indicator != null) {
+            indicator.onRefreshStateChanged(NestRefreshLayout.this, state, oldState, absDistance);
+        }
         if (mRefreshListener != null) {
             mRefreshListener.onRefreshStateChanged(NestRefreshLayout.this, state, oldState, absDistance);
         }
-        View optView = isOptHeader ? mRefreshHeader : mRefreshFooter;
-        if (optView != null && (optView instanceof OnRefreshListener)) {
-            ((OnRefreshListener) optView).onRefreshStateChanged(NestRefreshLayout.this, state, oldState, absDistance);
-        }
     }
 
-    protected void notifyRefresh(boolean isOptHeader) {
-        mRefreshListener.onRefresh(NestRefreshLayout.this, isOptHeader);
-        View optView = isOptHeader ? mRefreshHeader : mRefreshFooter;
-        if (optView != null && (optView instanceof OnRefreshListener)) {
-            ((OnRefreshListener) optView).onRefresh(NestRefreshLayout.this, isOptHeader);
+    protected void notifyRefresh(boolean refresh) {
+        INDICATOR indicator = refresh ? mRefreshHeader : mRefreshFooter;
+        if (indicator != null) {
+            indicator.onRefresh(NestRefreshLayout.this, refresh);
+        }
+        if (mRefreshListener != null) {
+            mRefreshListener.onRefresh(NestRefreshLayout.this, refresh);
         }
     }
-
-    public interface OnRefreshListener {
-        int STATE_IDLE = 0;
-        int STATE_PULL_TO_READY = 1;
-        int STATE_PULL_READY = 3;
-        int STATE_PULL_BEYOND_READY = 5;
-
-        int STATE_PUSH_TO_READY = 2;
-        int STATE_PUSH_READY = 4;
-        int STATE_PUSH_BEYOND_READY = 6;
-
-        void onRefreshStateChanged(NestRefreshLayout parent, int state, int preState, int moveAbsDistance);
-
-        void onRefresh(NestRefreshLayout parent, boolean refresh);
-    }
-
-    class RefreshAnimation extends Animation implements Animation.AnimationListener {
-        private int mValueFrom = 0, mValueTo = 0;
-
-        @Override
-        public void applyTransformation(float t, Transformation trans) {
-            if (t < 1) {
-                int current = mValueFrom + (int) ((mValueTo - mValueFrom) * t);
-                updateRefreshDistance(current, false);
-            }
-        }
-
-        void reset(int from, int to, boolean listener, int duration) {
-            reset();
-            mValueFrom = from;
-            mValueTo = to;
-            setDuration(duration);
-            setAnimationListener(listener ? this : null);
-        }
-
-        @Override
-        public void onAnimationStart(Animation animation) {
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-            updateRefreshDistance(mValueTo, false);
-            setAnimationListener(null);
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-        }
-    }
-
 
     @Override
     public boolean onStartNestedScroll(View child, View target, int nestedScrollAxes) {
-        boolean acceptedVertical = isRefreshNestEnable && (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
+        boolean acceptedVertical = isRefreshNestEnable && !isRefreshing && (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
         if (acceptedVertical) {
             acceptedVertical = isRefreshPullEnable() || isRefreshPushEnable();
         }
@@ -1082,30 +1078,15 @@ public class NestRefreshLayout extends BaseViewGroup implements NestedScrollingP
 
     @Override
     public void onStopNestedScroll(View target) {
-        if (mNestInitDistance != 0 && mRefreshState != OnRefreshListener.STATE_IDLE) {
-            View optView = isOptHeader ? mRefreshHeader : mRefreshFooter;
-            int criticalDistance = optView == null ? mNestInitDistance : optView.getHeight();
-            isRefreshing = mNestInitDistance > criticalDistance;
-            if (isRefreshing && mRefreshListener != null) {
-                animateRefresh(mNestInitDistance, criticalDistance, -1);
-                notifyRefresh(isOptHeader);
-            } else {
-                isRefreshing = false;
-                animateRefresh(mNestInitDistance, 0, -1);
-            }
+        if (mNestInitDistance != 0) {
+            updateRefreshByNestMove(mNestInitDistance, true);
+            mNestInitDistance = 0;
         }
     }
 
-    private int mNestInitDistance = 0;
-
     @Override
     public void onNestedScroll(View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
-        if (dyUnconsumed == 0) {
-            if (mNestInitDistance != 0) {
-                mNestInitDistance = 0;
-                setRefreshComplete(false);
-            }
-        } else {
+        if (dyConsumed == 0 && dyUnconsumed != 0) {
             if (mNestInitDistance == 0) {
                 int refreshState = mRefreshState;
                 if (dyUnconsumed > 0 && mRefreshFooter != null && !canScrollToChildBottom(getScrollAbleView())) {
@@ -1127,14 +1108,31 @@ public class NestRefreshLayout extends BaseViewGroup implements NestedScrollingP
                     mNestInitDistance -= dyUnconsumed;
                 }
             }
-            if (mNestInitDistance > 0) {
-                updateRefreshDistance(mNestInitDistance, true);
+            if (mNestInitDistance != 0) {
+                updateRefreshByNestMove(mNestInitDistance, false);
             }
         }
     }
 
     @Override
     public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
+        if (mNestInitDistance != 0 && dy != 0) {
+            if (isOptHeader) {
+                if (dy > 0) {
+                    int willConsumed = Math.min(dy, mNestInitDistance);
+                    consumed[1] = willConsumed;
+                    mNestInitDistance -= willConsumed;
+                    updateRefreshByNestMove(mNestInitDistance, false);
+                }
+            } else {
+                if (dy < 0) {
+                    int willConsumed = Math.min(-dy, mNestInitDistance);
+                    consumed[1] = -willConsumed;
+                    mNestInitDistance -= willConsumed;
+                    updateRefreshByNestMove(mNestInitDistance, false);
+                }
+            }
+        }
     }
 
     @Override
@@ -1150,6 +1148,73 @@ public class NestRefreshLayout extends BaseViewGroup implements NestedScrollingP
     @Override
     public int getNestedScrollAxes() {
         return ViewCompat.SCROLL_AXIS_VERTICAL;
+    }
+
+    public interface OnRefreshListener {
+        int STATE_IDLE = 0;
+        int STATE_PULL_TO_READY = 1;
+        int STATE_PULL_READY = 3;
+        int STATE_PULL_BEYOND_READY = 5;
+
+        int STATE_PUSH_TO_READY = 2;
+        int STATE_PUSH_READY = 4;
+        int STATE_PUSH_BEYOND_READY = 6;
+
+        void onRefreshStateChanged(NestRefreshLayout parent, int state, int preState, int moveAbsDistance);
+
+        void onRefresh(NestRefreshLayout parent, boolean refresh);
+    }
+
+    class RefreshAnimation extends Animation implements Animation.AnimationListener {
+        private int mValueFrom = 0, mValueTo = 0;
+        private int mCurrentValue = 0;
+        private boolean mCancel;
+
+        @Override
+        public void applyTransformation(float t, Transformation trans) {
+            if (!mCancel && t < 1) {
+                int current = mValueFrom + (int) ((mValueTo - mValueFrom) * t);
+                if (mCurrentValue != current) {
+                    mCurrentValue = current;
+                }
+                updateRefreshDistance(mCurrentValue, false);
+            }
+        }
+
+        void reset(int from, int to, boolean listener, int duration) {
+            reset();
+            mCurrentValue = mValueFrom = from;
+            mValueTo = to;
+            setDuration(duration);
+            setAnimationListener(listener ? this : null);
+        }
+
+        protected int getValue() {
+            return mCurrentValue;
+        }
+
+        @Override
+        public void cancel() {
+            mCancel = true;
+            super.cancel();
+            setAnimationListener(null);
+        }
+
+        @Override
+        public void onAnimationStart(Animation animation) {
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            if (!mCancel) {
+                updateRefreshDistance(mValueTo, false);
+            }
+            setAnimationListener(null);
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+        }
     }
 
 }

@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.rexy.common.BaseFragment;
 import com.rexy.widgetlayout.R;
 import com.rexy.widgetlayout.model.DecorationOffsetLinear;
+import com.rexy.widgetlayout.model.RefreshIndicator;
 import com.rexy.widgetlayout.model.TestRecyclerAdapter;
 import com.rexy.widgets.group.NestRefreshLayout;
 import com.rexy.widgets.tools.ViewUtils;
@@ -37,11 +38,11 @@ public class FragmentRefreshLayout extends BaseFragment implements NestRefreshLa
         return mRefreshLayout;
     }
 
-    private void initRefreshLayout(NestRefreshLayout refreshLayout){
-        LayoutInflater inflater=LayoutInflater.from(getActivity());
+    private void initRefreshLayout(NestRefreshLayout refreshLayout) {
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
         refreshLayout.setOnRefreshListener(this);
-        refreshLayout.setRefreshPullIndicator(inflater.inflate(R.layout.pull_to_refresh_indicator,refreshLayout,false));
-        refreshLayout.setRefreshPushIndicator(inflater.inflate(R.layout.pull_to_refresh_indicator,refreshLayout,false));
+        refreshLayout.setRefreshPullIndicator(new RefreshIndicator(inflater.getContext()));
+        refreshLayout.setRefreshPushIndicator(new RefreshIndicator(inflater.getContext()));
         refreshLayout.setBackgroundColor(0xFFEEEEEE);
     }
 
