@@ -43,13 +43,13 @@ public class FragmentRefreshLayout extends BaseFragment implements NestRefreshLa
         refreshLayout.setOnRefreshListener(this);
         refreshLayout.setRefreshPullIndicator(new RefreshIndicator(inflater.getContext()));
         refreshLayout.setRefreshPushIndicator(new RefreshIndicator(inflater.getContext()));
-        refreshLayout.setBackgroundColor(0xFFEEEEEE);
+        refreshLayout.setRefreshPushEnable(true);
     }
 
     private void initRecyclerView(RecyclerView recyclerView, int initCount) {
         recyclerView.setAdapter(new TestRecyclerAdapter(getActivity(), createData("item", initCount)));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DecorationOffsetLinear(false, 20));
+        recyclerView.addItemDecoration(new DecorationOffsetLinear(false, 20,20,0));
     }
 
     private List<String> createData(String prefix, int count) {

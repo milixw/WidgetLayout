@@ -3,10 +3,11 @@
     android:layout_height="match_parent">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycleView"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@color/content_background_color"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp" />
 </com.rexy.widgets.group.NestRefreshLayout>
 
 

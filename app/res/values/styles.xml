@@ -5,17 +5,19 @@
         <item name="android:windowNoTitle">false</item>
         <item name="android:windowBackground">@color/window_background_color</item>
         <item name="android:windowAnimationStyle">@style/Animation_Activity</item>
+        <item name="android:actionBarStyle">@style/ActionBarTheme</item>
     </style>
 
-    <style name="Activity_Welcome" parent="@android:style/Theme">
+    <style name="Activity_Welcome" parent="android:Theme.Holo">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@drawable/layer_bk_welcome</item>
         <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowBackground">@drawable/layer_bk_welcome</item>
     </style>
 
-    <style name="Activity_Main" parent="android:Theme.Holo">
+    <style name="Activity_Main" parent="@style/Activity_Welcome">
+        <item name="android:windowNoTitle">false</item>
         <item name="android:windowBackground">@color/window_background_color</item>
-        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:actionBarStyle">@style/ActionBarTheme</item>
     </style>
 
     <style name="Animation_Activity" parent="@android:style/Animation.Activity">
@@ -23,5 +25,9 @@
         <item name="android:activityOpenExitAnimation">@anim/slide_left_out</item>
         <item name="android:activityCloseEnterAnimation">@anim/slide_right_in</item>
         <item name="android:activityCloseExitAnimation">@anim/slide_right_out</item>
+    </style>
+    
+    <style name="ActionBarTheme" parent="android:Widget.ActionBar" >
+        <item name="android:background">@color/title_background</item>
     </style>
 </resources>
