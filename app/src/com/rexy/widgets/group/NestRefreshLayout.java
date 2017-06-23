@@ -3,6 +3,7 @@ package com.rexy.widgets.group;
 import android.content.Context;
 import android.graphics.PointF;
 import android.os.Build;
+import android.support.v4.util.Pair;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.NestedScrollingParent;
 import android.support.v4.view.ViewCompat;
@@ -54,10 +55,10 @@ public class NestRefreshLayout<INDICATOR extends View & NestRefreshLayout.OnRefr
     int mMaxPushDistance = -1;
 
     OnRefreshListener mRefreshListener = null;
+    float mRefreshMoveFactor = 0.33f;
+    float mRefreshReadyFactor = 1.3f;
 
     private int mTouchSlop;
-    private float mRefreshMoveFactor = 0.33f;
-    private float mRefreshReadyFactor = 1.3f;
     private boolean isRefreshing = false;
     private boolean isOptHeader;
     private boolean mIsBeingDragged = false;
@@ -446,23 +447,28 @@ public class NestRefreshLayout<INDICATOR extends View & NestRefreshLayout.OnRefr
         if (mScrollChild == null && mContentView != null) {
             if (isScrollAbleView(mContentView)) {
                 mScrollChild = mContentView;
-            } else {
-                Queue<ViewGroup> queue = new LinkedList<>();
-                queue.offer((ViewGroup) mContentView);
-                ViewGroup parrent;
-                while ((parrent = queue.poll()) != null) {
-                    int size = parrent == null ? 0 : parrent.getChildCount();
+            } else if (mContentView instanceof ViewGroup) {
+                int maxRound = 3;
+                Queue<Pair<Integer, ViewGroup>> queue = new LinkedList<>();
+                queue.offer(Pair.create(0, (ViewGroup) mContentView));
+                Pair<Integer, ViewGroup> pair;
+                while ((pair = queue.poll()) != null) {
+                    ViewGroup parent = pair.second;
+                    int round = pair.first, size = parent == null ? 0 : parent.getChildCount();
                     for (int i = 0; i < size; i++) {
-                        View v = parrent.getChildAt(i);
-                        if ((v instanceof RecyclerView) || (v instanceof AbsListView) || (v instanceof ScrollView) || (v instanceof WebView)) {
+                        View v = parent.getChildAt(i);
+                        if (isScrollAbleView(v)) {
                             mScrollChild = v;
                             queue.clear();
-                            break;
+                            return v;
                         } else if (v instanceof ViewGroup) {
-                            queue.offer((ViewGroup) v);
+                            if (round < maxRound) {
+                                queue.offer(Pair.create(round + 1, (ViewGroup) v));
+                            }
                         }
                     }
                 }
+                queue.clear();
             }
         }
         return mScrollChild;
@@ -786,11 +792,11 @@ public class NestRefreshLayout<INDICATOR extends View & NestRefreshLayout.OnRefr
             mPointLast.set(x, y);
             if (dragged) {
                 int refreshState = mRefreshState;
-                if ((dy < 0 && mRefreshHeader != null && !canScrollToChildTop(getScrollAbleView()))) {
+                if ((dy < 0 && isRefreshPullEnable() && !canScrollToChildTop(getScrollAbleView()))) {
                     refreshState = OnRefreshListener.STATE_PULL_TO_READY;
                     isOptHeader = true;
                 }
-                if ((dy > 0 && mRefreshFooter != null && !canScrollToChildBottom(getScrollAbleView()))) {
+                if ((dy > 0 && isRefreshPushEnable() && !canScrollToChildBottom(getScrollAbleView()))) {
                     refreshState = OnRefreshListener.STATE_PUSH_TO_READY;
                     isOptHeader = false;
                 }
@@ -915,13 +921,22 @@ public class NestRefreshLayout<INDICATOR extends View & NestRefreshLayout.OnRefr
         }
     }
 
+    private int calculateMaxAnimationRefreshDistance(boolean optHeader) {
+        int left, right;
+        if (optHeader) {
+            left = mRefreshHeader == null ? 0 : mRefreshHeader.getMeasuredHeight();
+            right = getMaxPullDistance() - left;
+        } else {
+            left = mRefreshFooter == null ? 0 : mRefreshFooter.getMeasuredHeight();
+            right = getMaxPushDistance() - left;
+        }
+        return Math.max(left, right);
+    }
+
     private int calculateDuration(int distance, boolean optHeader) {
         if (distance == 0) return 0;
-        int maxDistance = optHeader ? getMaxPullDistance() : getMaxPushDistance();
-        if (maxDistance <= 0) {
-            maxDistance = getHeight() / 2;
-        }
         int defaultMin = 100, defaultMax = 250;
+        int maxDistance = calculateMaxAnimationRefreshDistance(optHeader);
         int minDuration = mDurationMin <= 0 ? defaultMin : mDurationMin;
         int maxDuration = mDurationMax <= 0 ? defaultMax : mDurationMax;
         if (minDuration == maxDuration || maxDistance == 0) {
@@ -1089,17 +1104,19 @@ public class NestRefreshLayout<INDICATOR extends View & NestRefreshLayout.OnRefr
         if (dyConsumed == 0 && dyUnconsumed != 0) {
             if (mNestInitDistance == 0) {
                 int refreshState = mRefreshState;
-                if (dyUnconsumed > 0 && mRefreshFooter != null && !canScrollToChildBottom(getScrollAbleView())) {
+                if (dyUnconsumed > 0 && isRefreshPushEnable() && !canScrollToChildBottom(getScrollAbleView())) {
                     refreshState = OnRefreshListener.STATE_PUSH_TO_READY;
                     isOptHeader = false;
                     mNestInitDistance = dyUnconsumed;
                 }
-                if (dyUnconsumed < 0 && mRefreshHeader != null && !canScrollToChildTop(getScrollAbleView())) {
+                if (dyUnconsumed < 0 && isRefreshPullEnable() && !canScrollToChildTop(getScrollAbleView())) {
                     refreshState = OnRefreshListener.STATE_PULL_TO_READY;
                     isOptHeader = true;
                     mNestInitDistance = -dyUnconsumed;
                 }
-                updateRefreshState(refreshState, mNestInitDistance);
+                if (refreshState != mRefreshState) {
+                    updateRefreshState(refreshState, mNestInitDistance);
+                }
             } else {
                 if (dyUnconsumed > 0) {
                     mNestInitDistance += dyUnconsumed;
@@ -1216,5 +1233,4 @@ public class NestRefreshLayout<INDICATOR extends View & NestRefreshLayout.OnRefr
         public void onAnimationRepeat(Animation animation) {
         }
     }
-
 }
