@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/window_background_color"
+    android:background="@color/windowBackground"
     app:lineCenterHorizontal="true"
     app:lineCenterVertical="true">
     <com.rexy.widgets.view.FadeTextButton
@@ -16,8 +16,8 @@
         android:paddingRight="15dp"
         android:text="width,height limit in dp"
         android:textSize="18sp"
-        android:background="#363F59"
-        android:textColor="#CCC"
+        android:background="@color/optionBackground"
+        android:textColor="@color/textButton"
         android:clickable="true"
         android:textStyle="bold"
         android:gravity="center_vertical"
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:background="#363F59"
+        android:background="@color/optionBackground"
         app:columnNumber="4"
         app:columnCenterVertical="true"
         app:stretchColumns="1,3"
@@ -52,7 +52,7 @@
             android:padding="5dp"
             android:text="w-min:"
             android:clickable="true"
-            android:textColor="#CCC"
+            android:textColor="@color/textButton"
             android:textSize="18sp"
             android:textStyle="bold"/>
         <EditText
@@ -68,7 +68,7 @@
             android:padding="5dp"
             android:text="w-max:"
             android:clickable="true"
-            android:textColor="#CCC"
+            android:textColor="@color/textButton"
             android:textSize="18sp"
             android:textStyle="bold"/>
         <EditText
@@ -84,7 +84,7 @@
             android:padding="5dp"
             android:text="h-min:"
             android:clickable="true"
-            android:textColor="#CCC"
+            android:textColor="@color/textButton"
             android:textSize="18sp"
             android:textStyle="bold"/>
         <EditText
@@ -100,7 +100,7 @@
             android:padding="5dp"
             android:text="h-max:"
             android:clickable="true"
-            android:textColor="#CCC"
+            android:textColor="@color/textButton"
             android:textSize="18sp"
             android:textStyle="bold"/>
         <EditText
@@ -117,6 +117,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
+        android:background="@color/partBackground"
         app:contentMarginLeft="5dp"
         app:contentMarginTop="5dp"
         app:contentMarginRight="5dp"
@@ -169,7 +170,7 @@
         android:id="@+id/exampleParent"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:background="#eee"
+        android:background="@color/partBackground"
         android:gravity="center"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
@@ -190,7 +191,7 @@
             android:paddingLeft="18dp"
             android:paddingRight="18dp"
             android:text="R"
-            android:textColor="#FFF"
+            android:textColor="@color/titleBackground"
             android:textSize="18sp"
             android:textStyle="bold"/>
     </com.rexy.widgets.group.WrapLayout>
@@ -198,14 +199,13 @@
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         app:stretchColumns="*"
-        app:borderLeftColor="#333333"
         app:borderTopColor="#333333"
         app:borderRightColor="#333333"
         app:borderBottomColor="#333333"
         app:contentMarginLeft="4dp"
-        app:contentMarginTop="4dp"
+        app:contentMarginTop="4.4dp"
         app:contentMarginRight="4dp"
-        app:contentMarginBottom="4dp"
+        app:contentMarginBottom="4.5dp"
         app:contentMarginVertical="5dp">
         <com.rexy.widgets.view.FadeTextButton
             android:id="@+id/viewColor1"
@@ -246,8 +246,8 @@
         android:paddingRight="15dp"
         android:text="ADD VIEW"
         android:textSize="20sp"
-        android:background="#363F59"
-        android:textColor="#CCC"
+        android:background="@color/optionBackground"
+        android:textColor="@color/textButton"
         android:clickable="true"
         android:textStyle="bold"
         android:gravity="center"

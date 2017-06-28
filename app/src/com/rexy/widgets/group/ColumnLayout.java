@@ -247,7 +247,7 @@ public class ColumnLayout extends PressViewGroup {
             int childMeasureSpecHeight=getChildMeasureSpec(heightMeasureSpec,marginVertical+contentHeight,params.height);
             params.measure(child,childMeasureSpecWidth,childMeasureSpecHeight);
             childState = childCount | child.getMeasuredState();
-            int childHeightWithMargin = child.getMeasuredHeight() + marginHorizontal;
+            int childHeightWithMargin = child.getMeasuredHeight() + marginVertical;
             if (currentLineMaxHeight < childHeightWithMargin) {
                 currentLineMaxHeight = childHeightWithMargin;
             }

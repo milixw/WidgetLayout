@@ -1,12 +1,13 @@
 # WidgetLayout 介绍
 **WidgetLayout**是一组继承于`ViewGroup`的自定义容器集合， 目前实现了以下实用容器:
 
-1. `WrapLayout` 支持水平布局，并自适应换行，可限定每行最少和最多Item 数，行内容可水平和垂直居中。
-2. `LabelLayout` 继承自 `WrapLayout`,以`ItemProvider` 方式提供内容，有简单的回收复用机制，有Item 点击监听。
-3. `ColumnLayout` 以等分列方式布局，每列可设置内容居左，中，右，及铺满，可设置最小最大列宽高限定。
-4. `NestFloatLayout` 支持列表的嵌套滑动和指定子 `View` 悬停，像`NestScrollView` 。
-5. `PageScrollView` 可水平垂直方向布局和滑动吸顶等，无需嵌套; 支持`ScrollView`和`ViewPager`的交互和接口。
-6. `PageScrollTab` 在`PageScrollView`上扩展支持`Tab`场景交互和各种UI 定制。
+1. `NestRefreshLayout` 一个精简强大的支持任意类型 View 的下拉刷新 上拉加载更多，同时可添加头部和尾部 且可设置 `Float`模式。
+2. `WrapLayout` 支持水平布局，并自适应换行，可限定每行最少和最多Item 数，行内容可水平和垂直居中。
+3. `LabelLayout` 继承自 `WrapLayout`,以`ItemProvider` 方式提供内容，有简单的回收复用机制，有Item 点击监听。
+4. `ColumnLayout` 以等分列方式布局，每列可设置内容居左，中，右，及铺满，可设置最小最大列宽高限定。
+5. `NestFloatLayout` 支持列表的嵌套滑动和指定子 `View` 悬停，像`NestScrollView` 。
+6. `PageScrollView` 可水平垂直方向布局和滑动吸顶等，无需嵌套; 支持`ScrollView`和`ViewPager`的交互和接口。
+7. `PageScrollTab` 在`PageScrollView`上扩展支持`Tab`场景交互和各种UI 定制。
 
 
 

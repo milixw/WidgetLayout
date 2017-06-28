@@ -22,8 +22,8 @@
         android:layout_marginTop="5dp"
         android:id="@+id/floatText"
         android:gravity="center"
-        android:background="#363F59"
-        android:textColor="#CCC"
+        android:background="@color/optionBackground"
+        android:textColor="@color/textButton"
         android:textStyle="bold"
         android:text="FLOAT BUTTON FOR NEST LIST" />
     <com.rexy.widgets.group.WrapLayout
@@ -37,7 +37,7 @@
             android:id="@+id/listView"
             android:padding="10dp"
             android:minHeight="100dp"
-            android:background="#5C6BC2"
+            android:background="@color/partBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </com.rexy.widgets.group.WrapLayout>

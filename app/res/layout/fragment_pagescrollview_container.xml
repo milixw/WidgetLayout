@@ -6,7 +6,7 @@
     <com.rexy.widgets.group.ColumnLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#5C6BC2"
+        android:background="@color/optionBackground"
         app:columnNumber="2"
         app:columnCenterVertical="true"
         app:stretchColumns="*"
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="5dp"
-            android:textColor="#E5E5E5"
+            android:textColor="@color/textButton"
             android:textSize="18sp" />
         <com.rexy.widgets.view.FadeTextButton
             android:id="@+id/toggleOrientation"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="5dp"
-            android:textColor="#E5E5E5"
+            android:textColor="@color/textButton"
             android:textSize="18sp" />
     </com.rexy.widgets.group.ColumnLayout>
     <com.rexy.widgets.group.WrapLayout

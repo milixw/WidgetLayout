@@ -1,6 +1,7 @@
 package com.rexy.widgetlayout.model;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -111,8 +112,9 @@ public class RefreshIndicator extends WrapLayout implements NestRefreshLayout.On
         mProgressBar = new ProgressBar(context);
         mImageView = new ImageView(context);
         mImageView.setImageResource(R.drawable.icon_refresh_down);
-        mTextView.setTextColor(0XFF666666);
+        mTextView.setTextColor(getResources().getColor(R.color.optionBackground));
         mTextView.setTextSize(16);
+        mTextView.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
         RefreshIndicator.LayoutParams lpLeft = new RefreshIndicator.LayoutParams(-2, -2);
         lpLeft.gravity = Gravity.CENTER;
         lpLeft.maxHeight = lpLeft.maxWidth = (int) (density * 35);

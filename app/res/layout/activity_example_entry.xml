@@ -17,8 +17,8 @@
         android:clickable="true"
         android:text="Widgets Demo,全量自定义容器编写"
         android:textSize="18sp"
-        android:background="#363F59"
-        android:textColor="#CCC"
+        android:background="@color/optionBackground"
+        android:textColor="@color/textButton"
         android:textStyle="bold"
         android:gravity="center_vertical"
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:background="@color/content_background_color"
+        android:background="@color/contentBackground"
         app:columnNumber="1"
         app:columnCenterVertical="true"
         app:stretchColumns="*"
@@ -45,8 +45,7 @@
         app:contentMarginTop="10dp"
         app:contentMarginHorizontal="6dp"
         app:dividerColorHorizontal="#619FC6"
-        app:dividerPaddingHorizontalEnd="15dp"
-        app:dividerPaddingHorizontalStart="15dp"
+        app:dividerPaddingHorizontal="15dp"
         app:foregroundAlphaMax="60"
         app:foregroundAlphaMin="10"
         app:foregroundColor="#000"
@@ -61,8 +60,8 @@
             android:minWidth="250dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:text="RefreshLayout"
-            android:textColor="#363F59"
+            android:text="NestRefreshLayout"
+            android:textColor="@color/optionBackground"
             android:textSize="18sp"
             android:textStyle="bold" />
         <com.rexy.widgets.view.FadeTextButton
@@ -75,7 +74,7 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:text="ColumnLayout"
-            android:textColor="#363F59"
+            android:textColor="@color/optionBackground"
             android:textSize="18sp"
             android:textStyle="bold" />
         <com.rexy.widgets.view.FadeTextButton
@@ -88,7 +87,7 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:text="NestFloatLayout"
-            android:textColor="#363F59"
+            android:textColor="@color/optionBackground"
             android:textSize="18sp"
             android:textStyle="bold" />
         <com.rexy.widgets.view.FadeTextButton
@@ -101,7 +100,7 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:text="WrapLayout 、LabelLayout"
-            android:textColor="#363F59"
+            android:textColor="@color/optionBackground"
             android:textSize="18sp"
             android:textStyle="bold" />
         <com.rexy.widgets.view.FadeTextButton
@@ -114,7 +113,7 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:text="PageScrollView 、PageScrollTab"
-            android:textColor="#363F59"
+            android:textColor="@color/optionBackground"
             android:textSize="18sp"
             android:textStyle="bold" />
     </com.rexy.widgets.group.ColumnLayout>

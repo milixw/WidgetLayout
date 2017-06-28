@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.rexy.widgetlayout.R;
 import com.rexy.widgets.view.FadeTextButton;
 
 import java.util.List;
@@ -49,8 +50,8 @@ public class TestRecyclerAdapter extends RecyclerView.Adapter {
         textView.setPadding(30, 20, 30, 20);
         textView.setTextSize(18);
         textView.setClickable(true);
-        textView.setTextColor(ColorStateList.valueOf(0xFFFF0000));
-        textView.setBackgroundColor(0xAACCFF00);
+        textView.setTextColor(ColorStateList.valueOf(mContext.getColor(R.color.textButton)));
+        textView.setBackgroundColor(mContext.getColor(R.color.itemBackground));
         textView.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
         return new TestRecyclerHolder(textView);
     }

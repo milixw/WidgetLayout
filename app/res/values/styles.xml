@@ -3,7 +3,7 @@
     <style name="AppTheme" parent="android:Theme.Holo">
         <!-- Customize your theme here. -->
         <item name="android:windowNoTitle">false</item>
-        <item name="android:windowBackground">@color/window_background_color</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
         <item name="android:windowAnimationStyle">@style/Animation_Activity</item>
         <item name="android:actionBarStyle">@style/ActionBarTheme</item>
     </style>
@@ -16,7 +16,7 @@
 
     <style name="Activity_Main" parent="@style/Activity_Welcome">
         <item name="android:windowNoTitle">false</item>
-        <item name="android:windowBackground">@color/window_background_color</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
         <item name="android:actionBarStyle">@style/ActionBarTheme</item>
     </style>
 
@@ -28,6 +28,6 @@
     </style>
     
     <style name="ActionBarTheme" parent="android:Widget.ActionBar" >
-        <item name="android:background">@color/title_background</item>
+        <item name="android:background">@color/titleBackground</item>
     </style>
 </resources>

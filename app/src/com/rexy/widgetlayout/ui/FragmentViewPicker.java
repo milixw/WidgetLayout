@@ -123,7 +123,7 @@ public class FragmentViewPicker extends BaseFragment {
         view.setMinWidth(minWidth);
         view.setMinHeight(minHeight);
         view.setTextSize(18);
-        view.setTextColor(0xFFFFFFFF);
+        view.setTextColor(getResources().getColor(R.color.textButton));
         view.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         int paddingH=(int)(18*mDensity);
         int paddingV=(int)(10*mDensity);

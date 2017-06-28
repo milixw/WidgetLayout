@@ -13,7 +13,7 @@
         android:layout_marginBottom="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#5C6BC2"
+        android:background="@color/partBackground"
         app:columnNumber="4"
         app:columnMinHeight="60dp"
         app:columnCenterVertical="true"
@@ -40,7 +40,7 @@
         android:id="@+id/wrapLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#5C6BC2"
+        android:background="@color/partBackground"
         android:layout_margin="15dp"
         app:columnNumber="3"
         app:columnCenterVertical="true"
@@ -62,7 +62,7 @@
     <com.rexy.widgets.group.ColumnLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#5C6BC2"
+        android:background="@color/optionBackground"
         android:layout_margin="15dp"
         app:columnNumber="4"
         app:columnCenterVertical="true"
@@ -85,7 +85,7 @@
             android:gravity="center"
             android:text="REMOVE"
             android:padding="5dp"
-            android:textColor="#E5E5E5"
+            android:textColor="@color/textButton"
             android:textSize="16sp" />
         <com.rexy.widgets.view.FadeTextButton
             android:id="@+id/viewAdd"
@@ -94,7 +94,7 @@
             android:gravity="center"
             android:text="ADD"
             android:padding="5dp"
-            android:textColor="#E5E5E5"
+            android:textColor="@color/textButton"
             android:textSize="16sp" />
         <com.rexy.widgets.view.FadeTextButton
             android:id="@+id/viewAddFast"
@@ -104,7 +104,7 @@
             android:text="ADD-FAST"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:textColor="#E5E5E5"
+            android:textColor="@color/textButton"
             android:textSize="16sp" />
         <ToggleButton
             android:id="@+id/toggleOptView"
@@ -114,6 +114,7 @@
             android:textOn="LabelLayout"
             android:textOff="WrapLayout"
             android:layout_marginLeft="3dp"
+            android:textColor="@color/textButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </com.rexy.widgets.group.ColumnLayout>

@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="220dp"
-        android:background="#5C6BC2"
+        android:background="@color/partBackground"
         app:columnNumber="4"
         app:columnMinHeight="60dp"
         app:columnCenterVertical="true"
@@ -40,7 +40,7 @@
     <com.rexy.widgets.group.ColumnLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#5C6BC2"
+        android:background="@color/optionBackground"
         android:layout_margin="15dp"
         app:borderLeftColor="#363F59"
         app:borderTopColor="#363F59"
@@ -63,7 +63,7 @@
             android:gravity="center"
             android:text="REMOVE"
             android:padding="5dp"
-            android:textColor="#E5E5E5"
+            android:textColor="@color/textButton"
             android:textSize="18sp" />
         <com.rexy.widgets.view.FadeTextButton
             android:id="@+id/viewAdd"
@@ -72,7 +72,7 @@
             android:gravity="center"
             android:text="ADD"
             android:padding="5dp"
-            android:textColor="#E5E5E5"
+            android:textColor="@color/textButton"
             android:textSize="18sp" />
         <com.rexy.widgets.view.FadeTextButton
             android:id="@+id/viewAddFast"
@@ -81,7 +81,7 @@
             android:gravity="center"
             android:text="ADD-FAST"
             android:padding="5dp"
-            android:textColor="#E5E5E5"
+            android:textColor="@color/textButton"
             android:textSize="18sp" />
     </com.rexy.widgets.group.ColumnLayout>
 </com.rexy.widgets.group.PageScrollView>
