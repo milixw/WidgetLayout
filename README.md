@@ -1,72 +1,58 @@
 # WidgetLayout 介绍
-**WidgetLayout**是一组继承于`ViewGroup`的自定义容器集合， 目前实现了以下实用容器:
+**WidgetLayout**是一组继承于`ViewGroup`的自定义容器集合，大部分支持描边和内容分割线，目前实现了以下实用容器:
 
-1. `NestRefreshLayout` 一个精简强大的支持任意类型 View 的下拉刷新 上拉加载更多，同时可添加头部和尾部 且可设置 `Float`模式。
-2. `WrapLayout` 支持水平布局，并自适应换行，可限定每行最少和最多Item 数，行内容可水平和垂直居中。
-3. `LabelLayout` 继承自 `WrapLayout`,以`ItemProvider` 方式提供内容，有简单的回收复用机制，有Item 点击监听。
-4. `ColumnLayout` 以等分列方式布局，每列可设置内容居左，中，右，及铺满，可设置最小最大列宽高限定。
-5. `NestFloatLayout` 支持列表的嵌套滑动和指定子 `View` 悬停，像`NestScrollView` 。
-6. `PageScrollView` 可水平垂直方向布局和滑动吸顶等，无需嵌套; 支持`ScrollView`和`ViewPager`的交互和接口。
-7. `PageScrollTab` 在`PageScrollView`上扩展支持`Tab`场景交互和各种UI 定制。
+1. `ColumnLayout` 以等分列方式布局，每列可设置内容居左，中，右，及铺满，可设置最小最大列宽高限定。
+2. `NestRefreshLayout` 一个精简强大的支持任意类型`View`的下拉刷新，上拉加载更多,可添加头部和尾部且可设置悬停模式。
+3. `NestFloatLayout` 支持列表的嵌套滑动和指定子 `View` 悬停顶部，类似`NestScrollView` 。
+4. `PageScrollView` 可水平垂直方向布局和滑动吸顶等，无需嵌套，支持`ScrollView`和`ViewPager`的交互和接口。
+5. `PageScrollTab` 在`PageScrollView`上扩展支持`Tab`场景交互和各种UI定制。
+6. `WrapLayout` 支持水平布局，并自适应换行，可限定每行最少和最多Item数，行内容可水平和垂直居中。
+7. `LabelLayout` 继承自 `WrapLayout`,以`ItemProvider` 方式提供内容，有简单的回收复用机制，有Item点击监听。
 
-
-
-# 实现背景
-
-* 开发中为了实现特定的组合布局，我们会用功能鲜明的4大常用布局去嵌套实现，增加了严重OverDraw的机率；
-
-* `RelativeLayout` 布局功能强大但是`measure`过程复杂(每次执行onMeasure 所有直接子 View 会有两次measure)
-
-* 面对复杂交互可能需要写一堆与业务无关的晦涩逻辑，工作量比开发业务繁重，比如滑动控件的悬停或联动；
-
-* 在有分割线或是边界线的视觉需求时，很多人常用`View`来实现，即消耗了内存，又影响了测绘时间。
-
-* 常用容器控件还没有对自身做最大宽高限定的，经常见到的等分布局，常用多层支持不同方向`LinearLayout`来实现。
-
-* 希望容器有一个共通的基类，便于日后统一处理一些事情，比如监控性能打点等。
-
-针对以上问题结合常用的使用场景编写了以上的几种容器组件,类结构图如下：
+以下是各容器实现的结构类图， **[直接看示例请点击](#demo演示效果)[`演示效果`](#demo演示效果)**
 
 ![WrapLayout&LabelLayout][classlayer]
 
+# 实现背景及使用场景
 
+**1. 现有系统容器下开发界面经常遇到以下尴尬问题:**
+   * 实现特定的组合布局，我们会用功能鲜明的4大常用布局去嵌套实现，**增加了严重OverDraw的机率**；
+   * `RelativeLayout` 布局功能强大但是`measure`过程复杂(每次执行`onMeasure` **所有直接子`View`会有两次measure**)
+   * 为实现复杂交互工作量比开发业务繁重，比如**滑动控件的悬停或联动**；
+   * **分割线或是边界线**很多人常用`View`来实现，即耗内存，又影响测绘时间。
+   * **等分布局**，使用多层不同方向`LinearLayout`来实现，嵌套太多。
+   * 常用容器控件还没有对自身做最大宽高限定的，也无对子 View 做最大宽高限定。
+   
+**2. 适合的使用场景举例按需要选择，可减少布局嵌套和复杂的交互代码。**
+   + **容器自身或对直接子`View`的最大宽高限定**，容器内容和直接子`View`的`gravity`灵活支持。
+   + 容器需要**描边**或子`View`间画**分割线**的，或有各种间距要求，或按下自带激变层效果可使用继承于`PressViewGroup`的容器，如`WrapLayout,LabelLayout,ColumnLayout`。
+   + 常见的**表格**布局或**动态等分**布局可用`ColumnLayout`，支持每列的`Align`方式（左中右上下）和全铺满。
+   + 标签布局或需自适应换行可选用`WrapLayout`和`LabelLayout`，可设置行最少最多的`View` 个数和行居中，
+   + 列表需要**嵌套滑动**和悬停吸顶可用`NestFloatLayout`，类似NestScrollView 。
+   + `PageScrollView` 可取代`ScrollView&HorizontalScrollView` 少嵌套，可设置任意子`View`滑动悬停在开始和结束位置，可不限定子`View`大小像 `ViewPager` 一样选中居中和滑动的交互。
+   + `WrapLayout,ColumnLayout`是完全可替代支持不同方向的`LinearLayout`并能提供更多的布局约束，和**背景，描边，分割等额外装饰**。
+   + 以上容器都有一个共通的基类，便于统一监控性能打点如`layout`,`measure`过程等。 
 
-# 适合的使用场景举例 按需要选择，减少布局嵌套和额外复杂的交互代码。
+# Demo演示效果
 
- + 任何需要对容器自身或对直接子 View 的最大宽高限定以及支持 `gravity的不同Align`布局，都可适当选择以下容器。
-
- + 任何需要对容器描边和子`View`间画分割线的，需要像ios 按下自带蒙层的效果可使用继承于`PressViewGroup`的容器，像`WrapLayout,LabelLayout,ColumnLayout`。
-
- + `WrapLayout`和`LabelLayout` 适用于以行方式布局子控件，并能自适应大小自动换行，方便设置行最少最多的`View` 个数和行居中，
-
- + `ColumnLayout`是特别适合列布局，等分布局的使用场景，方便调整每列的`Align`方式（左中右）和全铺满，或按child自已的`gravity`在所在列的格子里来布局，
-
- + `NestFloatLayout` 适合嵌套滑动的列表，类似NestScrollView 。
-
- + `PageScrollView` 可替代`ScrollView&HorizontalScrollView` 少嵌套，可设置任意子`View`滑动悬停在开始和结束位置，可不限定子`View`大小像 `ViewPager` 一样选中居中和滑动的交互。
-
- + `WrapLayout,ColumnLayout`是完全可替代支持不同方向的`LinearLayout`并能提供更多的布局约束，和背景，描边，分割等额外装饰。
-
-
-
-# Demo 示例效果
-
-Demo 入口 和 `NestFloatLayout`的演示效果。
-
-![NestFloatLayout][entry]
-![NestFloatLayout][nestlist]
-
-<br/>
 `WrapLayout`和`LabelLayout` `ColumnLayout`的演示效果。的演示效果。
 
 ![WrapLayout&LabelLayout][wraplabel]
 ![ColumnLayout][column]
 
 <br/>
+
 `PageScrollView`和`PageScrollTab`的使用示例。
 
 ![无需嵌套LinearLayout > scrollview.gif][scrollview]
 ![ViewPager 模式 > viewpager.gif][viewpager]
+
+<br/>
+
+Demo 入口 和 `NestFloatLayout`的演示效果。
+
+![NestFloatLayout][entry]
+![NestFloatLayout][nestlist]
 
 
 # 如何使用：XML 属性和 API 简介
@@ -165,73 +151,7 @@ Demo 入口 和 `NestFloatLayout`的演示效果。
 
 ### 具体容器组件的属性和使用介绍
 
-1.`WrapLayout` xml 属性支持属性如下：java 都有对应的set 和get 方法就不给示例了。
-
-``` xml
-  <!--每行内容水平居中-->
-  <attr name="lineCenterHorizontal" format="boolean"/>
-  <!--每行内容垂直居中-->
-  <attr name="lineCenterVertical" format="boolean"/>
-
-  <!--每一行最少的Item 个数-->
-  <attr name="lineMinItemCount" format="integer"/>
-  <!--每一行最多的Item 个数-->
-  <attr name="lineMaxItemCount" format="integer"/>
-```
-
-2.`LabelLayout` 继承`WrapLayout`有其所有功能接口。
-
-  不同是支持 `android:textSize,android:textColor` 在xml 中设置Label 的字号和字色。同样可用java 代码设置字号字色。
-  使用可通过`ItemProvider` 接口来初始化 `Label`,本工程中的示例初始化如下。
-
-  ``` java
-  final String[] mLabels = new String[]{
-          "A", "B", "C", "D", "E", "F", "G", "H"
-  };
-  labelLayout.setItemProvider(new ItemProvider.ViewProvider() {
-      @Override
-      public int getViewType(int position) {
-          return 0;
-      }
-
-      @Override
-      public View getView(int position, View convertView, ViewGroup parent) {
-          return buildView(getTitle(position),true);
-      }
-
-      @Override
-      public CharSequence getTitle(int position) {
-          return mLabels[position];
-      }
-
-      @Override
-      public Object getItem(int position) {
-          return mLabels[position];
-      }
-
-      @Override
-      public int getCount() {
-          return mLabels == null ? 0 : mLabels.length;
-      }
-  });
-  final LabelLayout.OnLabelClickListener mLabelClicker = new LabelLayout.OnLabelClickListener() {
-      @Override
-      public void onLabelClick(LabelLayout parent, View labelView) {
-          Object tag = labelView.getTag();
-          CharSequence text = tag == null ? null : String.valueOf(tag);
-          if (text == null && labelView instanceof TextView) {
-              text = ((TextView) labelView).getText();
-          }
-          if (text != null) {
-              Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
-          }
-      }
-  };
-  mLabelLayout.setOnLabelClickListener(mLabelClicker);
-  ```
-
-
-3.`ColumnLayout` xml 属性支持属性如下：java 都有对应的set 和get 方法就不给示例了。
+1.`ColumnLayout` xml 属性支持属性如下：java 都有对应的set和get方法就不给示例了。
 
 ``` xml
   <!--列个数-->
@@ -262,7 +182,35 @@ Demo 入口 和 `NestFloatLayout`的演示效果。
   <attr name="columnDividerPaddingEnd" format="dimension"/>
 ```
 
-4.`NestFloatLayou` xml 属性支持属性和 java 代码如下：
+2.`NestRefreshLayout` 在xml 中可像`ScrollView`一样用，只支持一个内容。可动态设置头部和尾部。
+
+``` java
+   //可选，设置头部headerView，true 表示悬停在内容上。
+   refreshLayout.setHeaderView(headerView, true);
+   
+   //可选，设置尾部footerView，false 表示不需要悬停在内容上。
+   refreshLayout.setFooterView(footerView, false);
+   
+   //可选，设置覆盖内容的蒙层 View。
+   refreshLayout.setMaskView(maskView, true);
+   
+   //设置下拉刷新的指示器。
+   refreshLayout.setRefreshPullIndicator(new DefaultRefreshIndicator(getActivity()));
+   //设置上拉加载更多的指示器。
+   refreshLayout.setRefreshPushIndicator(new DefaultRefreshIndicator(getActivity()));
+   
+   设置下拉或上推的状态和刷新动作的监听
+   mRefreshLayout.setOnRefreshListener(new NestRefreshLayout.OnRefreshListener() {
+      @Override
+      public void onRefreshStateChanged(NestRefreshLayout parent, int state, int preState, int moveAbsDistance) {
+      }
+      @Override
+      public void onRefresh(NestRefreshLayout parent, boolean refresh) {
+      }
+   });
+```
+
+3.`NestFloatLayou` xml 属性支持属性和 java 代码如下：
 
 ``` xml
  <!--实现了嵌套滑动NestScrollingChild 接口的滑动的 View 所在的直接子 View 索引-->
@@ -279,8 +227,7 @@ Demo 入口 和 `NestFloatLayout`的演示效果。
   mLastFloatLayout.setFloatViewIndex(viewIndex);
 ```
 
-
-5.`PageScrollView,PageScrollTab` 使用.
+4.`PageScrollView,PageScrollTab` 使用.
 
 a. 支持的xml 属性，对应都有java 相应的set 和 get;
 
@@ -412,6 +359,73 @@ java 额外的接口：
 
 
 
+
+5.`WrapLayout` xml 属性支持属性如下：java 都有对应的set 和get 方法就不给示例了。
+
+``` xml
+  <!--每行内容水平居中-->
+  <attr name="lineCenterHorizontal" format="boolean"/>
+  <!--每行内容垂直居中-->
+  <attr name="lineCenterVertical" format="boolean"/>
+
+  <!--每一行最少的Item 个数-->
+  <attr name="lineMinItemCount" format="integer"/>
+  <!--每一行最多的Item 个数-->
+  <attr name="lineMaxItemCount" format="integer"/>
+```
+
+6.`LabelLayout` 继承`WrapLayout`有其所有功能接口。
+
+  不同是支持 `android:textSize,android:textColor` 在xml 中设置Label 的字号和字色。同样可用java 代码设置字号字色。
+  使用可通过`ItemProvider` 接口来初始化 `Label`,本工程中的示例初始化如下。
+
+  ``` java
+  final String[] mLabels = new String[]{
+          "A", "B", "C", "D", "E", "F", "G", "H"
+  };
+  labelLayout.setItemProvider(new ItemProvider.ViewProvider() {
+      @Override
+      public int getViewType(int position) {
+          return 0;
+      }
+
+      @Override
+      public View getView(int position, View convertView, ViewGroup parent) {
+          return buildView(getTitle(position),true);
+      }
+
+      @Override
+      public CharSequence getTitle(int position) {
+          return mLabels[position];
+      }
+
+      @Override
+      public Object getItem(int position) {
+          return mLabels[position];
+      }
+
+      @Override
+      public int getCount() {
+          return mLabels == null ? 0 : mLabels.length;
+      }
+  });
+  final LabelLayout.OnLabelClickListener mLabelClicker = new LabelLayout.OnLabelClickListener() {
+      @Override
+      public void onLabelClick(LabelLayout parent, View labelView) {
+          Object tag = labelView.getTag();
+          CharSequence text = tag == null ? null : String.valueOf(tag);
+          if (text == null && labelView instanceof TextView) {
+              text = ((TextView) labelView).getText();
+          }
+          if (text != null) {
+              Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+          }
+      }
+  };
+  mLabelLayout.setOnLabelClickListener(mLabelClicker);
+  ```
+
+# 最后感谢大家关注和多提建议或是**issue**，如果很感兴趣请 star 和 follower .
 
 [classlayer]:image/classlayer.jpg "NestFloatLayout 的示例"
 [scrollview]:image/example_scrollview.gif "ScrollView type but no need to nest a single ViewGroup,just use as a LinearLayout"
