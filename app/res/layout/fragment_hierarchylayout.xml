@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.rexy.widgets.group.HierarchyLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <com.rexy.widgets.group.PageScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFF"
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_index"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="索引"
+                    android:textColor="#333"
+                    android:textSize="10sp" />
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/tv_index"
+                    android:layout_toRightOf="@id/tv_index"
+                    android:text="标题文本"
+                    android:textColor="#333"
+                    android:textSize="18sp" />
+                <com.rexy.widgets.view.FadeTextButton
+                    android:id="@+id/expandable_toggle_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:textColor="#333"
+                    android:focusable="false"
+                    android:text="更多按钮" />
+                <TextView
+                    android:id="@+id/tv_describe"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/tv_title"
+                    android:textColor="#333"
+                    android:text="describe" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/expandable1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingRight="5dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/iv_image1"
+                    android:layout_width="90dp"
+                    android:layout_height="70dp"
+                    android:scaleType="fitXY"
+                    android:background="#f9f" />
+                <TextView
+                    android:id="@+id/tv_message1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/iv_image1"
+                    android:textColor="#333"
+                    android:text="your message" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFF"
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_index2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="索引"
+                    android:textColor="#333"
+                    android:textSize="10sp" />
+                <TextView
+                    android:id="@+id/tv_title2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/tv_index2"
+                    android:layout_toRightOf="@id/tv_index2"
+                    android:text="标题文本"
+                    android:textColor="#333"
+                    android:textSize="18sp" />
+                <com.rexy.widgets.view.FadeTextButton
+                    android:id="@+id/expandable_toggle_button2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:textColor="#333"
+                    android:focusable="false"
+                    android:text="更多按钮" />
+                <TextView
+                    android:id="@+id/tv_describe2"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/tv_title2"
+                    android:textColor="#333"
+                    android:text="describe" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/expandable2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingRight="5dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/iv_image2"
+                    android:layout_width="90dp"
+                    android:layout_height="70dp"
+                    android:scaleType="centerCrop"
+                    android:background="#f00"
+                    android:src="@drawable/ic_launcher"/>
+                <TextView
+                    android:id="@+id/tv_message2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/iv_image2"
+                    android:textColor="#333"
+                    android:text="your message" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fff"
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_index3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="索引"
+                    android:textColor="#333"
+                    android:textSize="10sp" />
+                <TextView
+                    android:id="@+id/tv_title3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/tv_index"
+                    android:layout_toRightOf="@id/tv_index"
+                    android:text="标题文本"
+                    android:textColor="#333"
+                    android:textSize="18sp" />
+                <com.rexy.widgets.view.FadeTextButton
+                    android:id="@+id/expandable_toggle_button3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:textColor="#333"
+                    android:focusable="false"
+                    android:text="更多按钮" />
+                <TextView
+                    android:id="@+id/tv_describe3"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/tv_title3"
+                    android:textColor="#333"
+                    android:text="describe" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/expandable3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingRight="5dp"
+                android:orientation="horizontal">
+                <com.rexy.widgets.view.FadeTextButton
+                    android:id="@+id/iv_image3"
+                    android:layout_width="90dp"
+                    android:layout_height="70dp"
+                    android:scaleType="fitXY"
+                    android:background="#ff0" />
+                <TextView
+                    android:id="@+id/tv_message3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/iv_image3"
+                    android:textColor="#333"
+                    android:text="your message" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFF"
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_index4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="索引"
+                    android:textColor="#333"
+                    android:textSize="10sp" />
+                <TextView
+                    android:id="@+id/tv_title4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/tv_index4"
+                    android:layout_toRightOf="@id/tv_index4"
+                    android:text="标题文本"
+                    android:textColor="#333"
+                    android:textSize="18sp" />
+                <com.rexy.widgets.view.FadeTextButton
+                    android:id="@+id/expandable_toggle_button4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:textColor="#333"
+                    android:focusable="false"
+                    android:text="更多按钮" />
+                <TextView
+                    android:id="@+id/tv_describe4"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/tv_title4"
+                    android:textColor="#333"
+                    android:text="describe" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/expandable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingRight="5dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/iv_image4"
+                    android:layout_width="90dp"
+                    android:layout_height="70dp"
+                    android:scaleType="fitXY"
+                    android:background="#f0f" />
+                <TextView
+                    android:id="@+id/tv_message4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/iv_image4"
+                    android:textColor="#333"
+                    android:text="your message" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.rexy.widgets.group.PageScrollView>
+</com.rexy.widgets.group.HierarchyLayout>

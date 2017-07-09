@@ -147,9 +147,9 @@ public abstract class PressViewGroup extends BaseViewGroup {
     }
 
     @Override
-    protected final void dispatchDraw(Canvas canvas) {
+    protected void superDispatchDraw(Canvas canvas) {
         if (!dispatchDrawPrevious(canvas)) {
-            super.dispatchDraw(canvas);
+            super.superDispatchDraw(canvas);
         }
         dispatchDrawAfter(canvas);
         if (mForegroundDrawable != null) {

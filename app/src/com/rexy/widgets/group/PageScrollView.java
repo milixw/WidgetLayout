@@ -864,7 +864,7 @@ public class PageScrollView extends BaseViewGroup {
     }
 
     @Override
-    protected void dispatchDraw(Canvas canvas) {
+    protected void superDispatchDraw(Canvas canvas) {
         boolean swapIndexEnable = mFloatViewStartIndex >= 0 && mSwapViewIndex >= 0;
         if (swapIndexEnable && isChildrenDrawingOrderEnabled() == false) {
             setChildrenDrawingOrderEnabled(true);
@@ -873,7 +873,7 @@ public class PageScrollView extends BaseViewGroup {
                 setChildrenDrawingOrderEnabled(false);
             }
         }
-        super.dispatchDraw(canvas);
+        super.superDispatchDraw(canvas);
     }
 
     @Override

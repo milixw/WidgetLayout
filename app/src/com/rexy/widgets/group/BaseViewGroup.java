@@ -2,6 +2,7 @@ package com.rexy.widgets.group;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
@@ -48,7 +49,8 @@ public abstract class BaseViewGroup extends ViewGroup {
     protected boolean mAttachLayout = false;
 
     private String mLogTag;
-    private long mTimeMeasureStart, mTimeLayoutStart;
+    private long mTimeMeasureStart, mTimeLayoutStart, mTimeDrawStart;
+    protected long mLastMeasureCost, mLastLayoutCost, mLastDrawCost;
 
     public BaseViewGroup(Context context) {
         super(context);
@@ -275,6 +277,7 @@ public abstract class BaseViewGroup extends ViewGroup {
         setMeasuredDimension(resolveSizeAndState(finalWidth, widthMeasureSpec, childState),
                 resolveSizeAndState(finalHeight, heightMeasureSpec, childState << MEASURED_HEIGHT_STATE_SHIFT));
         doAfterMeasure(getMeasuredWidth(), getMeasuredHeight(), contentWidth, contentHeight);
+        mLastMeasureCost = System.currentTimeMillis() - mTimeMeasureStart;
     }
 
     @Override
@@ -294,6 +297,28 @@ public abstract class BaseViewGroup extends ViewGroup {
         int contentTop = getContentStartV(top, selfHeightNoPadding + top, getContentHeight(), mGravity);
         dispatchLayout(contentLeft, contentTop, left, top, selfWidthNoPadding, selfHeightNoPadding);
         doAfterLayout(firstAttachLayout);
+        mLastLayoutCost = System.currentTimeMillis() - mTimeLayoutStart;
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+
+        super.draw(canvas);
+
+    }
+
+    protected void superDispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
+    }
+
+    @Override
+    protected final void dispatchDraw(Canvas canvas) {
+        mTimeDrawStart = System.currentTimeMillis();
+        superDispatchDraw(canvas);
+        mLastDrawCost = System.currentTimeMillis() - mTimeDrawStart;
+        if (isLogAccess()) {
+            print(String.format("draw(%d ms)", mLastDrawCost));
+        }
     }
 
     /**
