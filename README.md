@@ -8,6 +8,7 @@
 5. `PageScrollTab` 在`PageScrollView`上扩展支持`Tab`场景交互和各种UI定制。
 6. `WrapLayout` 支持水平布局，并自适应换行，可限定每行最少和最多Item数，行内容可水平和垂直居中。
 7. `LabelLayout` 继承自 `WrapLayout`,以`ItemProvider` 方式提供内容，有简单的回收复用机制，有Item点击监听。
+8. `HierarchyLayout` 一个展示 `View`树层级关系和工具容器，可画出结束依赖图和3D层级图，计算出平均层级和最近一次`measure,layout,draw`的时间。
 
 以下是各容器实现的结构类图， **[直接看示例请点击](#demo演示效果)[`演示效果`](#demo演示效果)**
 
@@ -52,7 +53,16 @@
 Demo 入口 和 `NestFloatLayout`的演示效果。
 
 ![NestFloatLayout][entry]
-![NestFloatLayout][nestlist]
+![NestFloatLayout][entry]
+
+
+<br/>
+
+`HiearchyLayout`的静态图，实际是可随手势改变 3D 形态的。
+
+![hierarchyview] [层级3D图]
+![hierarchyviewnode] [层级关系树]
+
 
 
 # 如何使用：XML 属性和 API 简介
@@ -434,3 +444,5 @@ java 额外的接口：
 [column]:image/column.gif "ColumnLayout 的示例"
 [nestlist]:image/nestlist.gif "NestFloatLayout 的示例"
 [entry]:image/entry.jpg " 演示入口"
+[hierarchyview]:image/hierarchyView.jpeg " 演示入口"
+[hierarchyviewnode]:image/hierarchyViewNode.jpeg " 演示入口"

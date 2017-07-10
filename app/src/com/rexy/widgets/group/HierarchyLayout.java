@@ -67,12 +67,12 @@ public class HierarchyLayout extends WrapLayout {
     private final SparseArray<String> mIdNameArr = new SparseArray<>();
 
     private float mViewTextOffset = 1;
-    private boolean mHierarchyViewEnable = true;
-    private boolean mHierarchyNodeEnable = false;
+    private boolean mHierarchyViewEnable = false;
+    private boolean mHierarchyNodeEnable = true;
     private boolean mHierarchySummaryEnable = true;
     private boolean mDrawViewEnable = true;
 
-    private boolean mDrawViewIdEnable = true;
+    private boolean mDrawViewIdEnable = false;
     private int mPointerOne = INVALID_POINTER_ID;
     private PointF mLastPointOne = new PointF();
     private int mPointerTwo = INVALID_POINTER_ID;
@@ -91,9 +91,12 @@ public class HierarchyLayout extends WrapLayout {
 
     private int mViewShadowColor = 0xFF000000;
     private int mHierarchyColor = 0xAA000000;
-    private int mTreeNodeColor = 0xFF0000f2;
-    private int mTreeLeafColor = 0xFFFC7946;
-    private int mTreeBranchColor = 0xAAFF56FF;
+
+    private int mNodeLeafStrokeColor=0xFFFFFFFF;
+    private int mTreeNodeColor = 0xFF00FF00;
+    private int mTreeLeafColor = 0xFFFF0000;
+    private int mTreeBranchColor = 0xFFFFFFFF;
+
     private int mTreeBackground = 0;
     private int mTreeTextSize = 4;
     private int mTreeTextColor = 0xFFFF0000;
@@ -449,6 +452,9 @@ public class HierarchyLayout extends WrapLayout {
             mTreePaint.setColor(mTreeBranchColor);
             canvas.drawLine(x, y, px, py, mTreePaint);
         }
+        mTreePaint.setColor(mNodeLeafStrokeColor);
+        canvas.drawCircle(x, y, radius+mDensity, mTreePaint);
+
         mTreePaint.setColor(info.isLeaf() ? mTreeLeafColor : mTreeNodeColor);
         canvas.drawCircle(x, y, radius, mTreePaint);
 

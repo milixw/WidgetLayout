@@ -26,7 +26,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="索引"
+                    android:text="index"
                     android:textColor="#333"
                     android:textSize="10sp" />
                 <TextView
@@ -49,7 +49,7 @@
                     android:paddingBottom="3dp"
                     android:textColor="#333"
                     android:focusable="false"
-                    android:text="更多按钮" />
+                    android:text="text up" />
                 <TextView
                     android:id="@+id/tv_describe"
                     android:layout_marginTop="2dp"
@@ -68,20 +68,31 @@
                 android:paddingTop="5dp"
                 android:paddingRight="5dp"
                 android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_message1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="#333"
+                    android:layout_marginRight="20dp"
+                    android:text="your message" />
                 <ImageView
                     android:id="@+id/iv_image1"
                     android:layout_width="90dp"
                     android:layout_height="70dp"
                     android:scaleType="fitXY"
                     android:background="#f9f" />
+
                 <TextView
-                    android:id="@+id/tv_message1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@id/iv_image1"
+                    android:layout_marginLeft="25dp"
+                    android:layout_gravity="center_vertical"
                     android:textColor="#333"
-                    android:text="your message" />
+                    android:layout_marginRight="20dp"
+                    android:background="#AAF0F00F"
+                    android:text="test msg" />
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
@@ -124,7 +135,8 @@
                     android:paddingBottom="3dp"
                     android:textColor="#333"
                     android:focusable="false"
-                    android:text="更多按钮" />
+                    android:background="#AA00FF0F"
+                    android:text="text right" />
                 <TextView
                     android:id="@+id/tv_describe2"
                     android:layout_marginTop="2dp"
@@ -136,29 +148,32 @@
                     android:text="describe" />
             </RelativeLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/expandable2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingRight="5dp"
+                android:background="#334790D3"
                 android:orientation="horizontal">
                 <ImageView
                     android:id="@+id/iv_image2"
                     android:layout_width="90dp"
                     android:layout_height="70dp"
                     android:scaleType="centerCrop"
+                    android:layout_centerHorizontal="true"
                     android:background="#f00"
                     android:src="@drawable/ic_launcher"/>
                 <TextView
                     android:id="@+id/tv_message2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/iv_image2"
                     android:textColor="#333"
-                    android:text="your message" />
-            </LinearLayout>
+                    android:text="Text" />
+            </RelativeLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -177,15 +192,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="索引"
+                    android:text="hellow "
                     android:textColor="#333"
                     android:textSize="10sp" />
                 <TextView
                     android:id="@+id/tv_title3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/tv_index"
-                    android:layout_toRightOf="@id/tv_index"
+                    android:layout_alignBaseline="@id/tv_index3"
+                    android:layout_toRightOf="@id/tv_index3"
                     android:text="标题文本"
                     android:textColor="#333"
                     android:textSize="18sp" />
@@ -212,7 +227,7 @@
                     android:text="describe" />
             </RelativeLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/expandable3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -223,6 +238,8 @@
                     android:id="@+id/iv_image3"
                     android:layout_width="90dp"
                     android:layout_height="70dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="30dp"
                     android:scaleType="fitXY"
                     android:background="#ff0" />
                 <TextView
@@ -230,10 +247,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@id/iv_image3"
+                    android:layout_toLeftOf="@id/iv_image3"
                     android:textColor="#333"
                     android:text="your message" />
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -246,13 +263,14 @@
             android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
+                android:background="#33EC5413"
                 android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/tv_index4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="索引"
+                    android:text="well "
                     android:textColor="#333"
                     android:textSize="10sp" />
                 <TextView
@@ -275,16 +293,7 @@
                     android:paddingBottom="3dp"
                     android:textColor="#333"
                     android:focusable="false"
-                    android:text="更多按钮" />
-                <TextView
-                    android:id="@+id/tv_describe4"
-                    android:layout_marginTop="2dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@id/tv_title4"
-                    android:textColor="#333"
-                    android:text="describe" />
+                    android:text="button" />
             </RelativeLayout>
 
             <LinearLayout
@@ -304,10 +313,20 @@
                     android:id="@+id/tv_message4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_toRightOf="@id/iv_image4"
                     android:textColor="#333"
                     android:text="your message" />
+                <TextView
+                    android:id="@+id/tv_describe4"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333"
+                    android:background="#AA00FF00"
+                    android:text="describe" />
             </LinearLayout>
         </LinearLayout>
     </com.rexy.widgets.group.PageScrollView>
